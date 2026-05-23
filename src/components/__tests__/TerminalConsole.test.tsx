@@ -1,58 +1,46 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import TerminalConsole from '../TerminalConsole';
 
-// Mock scrollIntoView in JSDOM environment
-window.HTMLElement.prototype.scrollIntoView = jest.fn();
-
-describe('TerminalConsole Component (Modern Stepper UI)', () => {
+describe('TerminalConsole Component (Simple Premium Progress Card)', () => {
   const defaultLogs: any[] = [
     { text: 'Launching Puppeteer browser instance...', type: 'info', timestamp: '19:00:00' },
     { text: 'Navigating and searching Google Maps for "Bakery in Mumbai"...', type: 'info', timestamp: '19:00:02' },
   ];
 
-  it('renders standby message and pending steps when logs array is empty', () => {
+  it('renders standby message and initial status when logs array is empty', () => {
     render(<TerminalConsole logs={[]} isScraping={false} />);
     expect(screen.getByText(/System standing by/i)).toBeInTheDocument();
-    expect(screen.getByText('Browser Initialization')).toBeInTheDocument();
-    expect(screen.getByText('Finalizing Dataset')).toBeInTheDocument();
-    expect(screen.getByText('0% Completed')).toBeInTheDocument();
+    expect(screen.getByText('Ready to Extract')).toBeInTheDocument();
+    expect(screen.getByText('0%')).toBeInTheDocument();
+    expect(screen.getByText('Items Extracted')).toBeInTheDocument();
   });
 
-  it('renders progress percentage and stage titles correctly based on log history', () => {
+  it('renders progress percentage and active labels correctly based on log history', () => {
     render(<TerminalConsole logs={defaultLogs} isScraping={true} />);
 
-    // Since we have logs with 'browser instance' and 'searching', the active step should be 'Target Navigation' (30%)
-    expect(screen.getByText('30% Completed')).toBeInTheDocument();
-    expect(screen.getByText('Browser Initialization')).toBeInTheDocument();
-    expect(screen.getByText('Target Navigation')).toBeInTheDocument();
+    // Since we have 'searching', status should recognize searching maps and approximate 30% progress
+    expect(screen.getByText('30%')).toBeInTheDocument();
+    expect(screen.getByText('Searching Google Maps...')).toBeInTheDocument();
+    expect(screen.getByText('Current Action')).toBeInTheDocument();
   });
 
-  it('shows the active-spinner-ring indicator when isScraping is true', () => {
+  it('shows the active status dot with appropriate status label when scraping is active', () => {
     const { container } = render(<TerminalConsole logs={defaultLogs} isScraping={true} />);
-    const spinner = container.querySelector('.active-spinner-ring');
-    expect(spinner).toBeInTheDocument();
+    const dot = container.querySelector('.progress-status-dot.dot-active');
+    expect(dot).toBeInTheDocument();
   });
 
-  it('toggles the detailed system logs accordion drawer on click', () => {
-    render(<TerminalConsole logs={defaultLogs} isScraping={false} />);
+  it('renders scraped items counter accurately', () => {
+    const logsWithItems = [
+      ...defaultLogs,
+      { text: 'Scraped "Baker Cafe"', type: 'item', timestamp: '19:00:05' },
+      { text: 'Scraped "Sweet Bakery"', type: 'item', timestamp: '19:00:08' },
+    ];
+    render(<TerminalConsole logs={logsWithItems} isScraping={true} />);
 
-    // Collapsed by default - raw logs shouldn't be visible
-    expect(screen.queryByText('[19:00:00] Launching Puppeteer browser instance...')).not.toBeInTheDocument();
-
-    const toggleBtn = screen.getByRole('button', { name: /View Detailed System Output Logs/i });
-    expect(toggleBtn).toBeInTheDocument();
-
-    // Click to expand drawer
-    fireEvent.click(toggleBtn);
-
-    // Now raw logs should be visible
-    expect(screen.getByText('[19:00:00] Launching Puppeteer browser instance...')).toBeInTheDocument();
-    expect(screen.getByText('[19:00:02] Navigating and searching Google Maps for "Bakery in Mumbai"...')).toBeInTheDocument();
-
-    // Click again to collapse drawer
-    fireEvent.click(toggleBtn);
-    expect(screen.queryByText('[19:00:00] Launching Puppeteer browser instance...')).not.toBeInTheDocument();
+    // Assert that Items Extracted panel renders the count "2"
+    expect(screen.getByText('2')).toBeInTheDocument();
   });
 
   it('matches HTML snapshot structure', () => {
