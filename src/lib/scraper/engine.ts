@@ -88,7 +88,7 @@ export async function scrapeGoogleMaps(
       const detailInfo = await extractDetails(page);
       
       const item: ScrapedItem = {
-        id: btoa(name + page.url()).substring(0, 16),
+        id: Buffer.from(name + page.url()).toString('base64').substring(0, 16),
         name,
         rating: detailInfo.rating || 5.0,
         reviewsCount: detailInfo.reviewsCount || 1,
@@ -173,7 +173,7 @@ export async function scrapeGoogleMaps(
         newItemsInBatch++;
 
         const completedItem: ScrapedItem = {
-          id: rawItem.id || btoa(uniqueKey).substring(0, 16),
+          id: rawItem.id || Buffer.from(uniqueKey).toString('base64').substring(0, 16),
           name: rawItem.name || 'Unknown',
           rating: rawItem.rating,
           reviewsCount: rawItem.reviewsCount,

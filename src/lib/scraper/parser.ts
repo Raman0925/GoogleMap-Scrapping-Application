@@ -3,6 +3,16 @@ import { Page } from 'puppeteer';
 
 export async function extractListItems(page: Page): Promise<Partial<ScrapedItem>[]> {
   return page.evaluate(() => {
+    const safeBtoa = (str: string): string => {
+      try {
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, p1) => 
+          String.fromCharCode(parseInt(p1, 16))
+        ));
+      } catch (e) {
+        return btoa(str);
+      }
+    };
+
     const items: Partial<ScrapedItem>[] = [];
     const links = document.querySelectorAll('a[href*="/maps/place/"]');
     
@@ -114,7 +124,7 @@ export async function extractListItems(page: Page): Promise<Partial<ScrapedItem>
       }
 
       items.push({
-        id: btoa(name + href).substring(0, 16), // simple unique id
+        id: safeBtoa(name + href).substring(0, 16), // simple unique id
         name,
         rating,
         reviewsCount,
