@@ -1,0 +1,226 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`TerminalConsole Component (Modern Stepper UI) matches HTML snapshot structure 1`] = `
+<DocumentFragment>
+  <div
+    class="progress-stepper-container"
+  >
+    <div
+      class="stepper-header"
+    >
+      <div
+        class="stepper-title-container"
+      >
+        <h3
+          class="stepper-title"
+        >
+          Extraction Pipeline Stage
+        </h3>
+      </div>
+      <div
+        class="stepper-percentage"
+      >
+        30% Completed
+      </div>
+    </div>
+    <div
+      class="stepper-flow"
+    >
+      <div
+        class="step-item status-completed"
+      >
+        <div
+          class="step-badge"
+        >
+          <svg
+            class="step-icon icon-check"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              clip-rule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div
+          class="step-content"
+        >
+          <div
+            class="step-label"
+          >
+            Browser Initialization
+          </div>
+          <div
+            class="step-desc"
+          >
+            Setting up secure headless Chromium browser instance
+          </div>
+        </div>
+      </div>
+      <div
+        class="step-item status-active"
+      >
+        <div
+          class="step-badge"
+        >
+          <svg
+            class="step-icon icon-spinner animate-spin"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            />
+            <path
+              class="opacity-75"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              fill="currentColor"
+            />
+          </svg>
+        </div>
+        <div
+          class="step-content"
+        >
+          <div
+            class="step-label"
+          >
+            Target Navigation
+          </div>
+          <div
+            class="step-desc"
+          >
+            Searching Google Maps for keywords and location
+          </div>
+        </div>
+      </div>
+      <div
+        class="step-item status-pending"
+      >
+        <div
+          class="step-badge"
+        >
+          <span
+            class="step-dot"
+          />
+        </div>
+        <div
+          class="step-content"
+        >
+          <div
+            class="step-label"
+          >
+            Feed Scroll & Pagination
+          </div>
+          <div
+            class="step-desc"
+          >
+            Scrolling listing feed and extracting basic profiles
+          </div>
+        </div>
+      </div>
+      <div
+        class="step-item status-pending"
+      >
+        <div
+          class="step-badge"
+        >
+          <span
+            class="step-dot"
+          />
+        </div>
+        <div
+          class="step-content"
+        >
+          <div
+            class="step-label"
+          >
+            Detail Page Scraping
+          </div>
+          <div
+            class="step-desc"
+          >
+            Deep scraping business website, phone and coordinates
+          </div>
+        </div>
+      </div>
+      <div
+        class="step-item status-pending"
+      >
+        <div
+          class="step-badge"
+        >
+          <span
+            class="step-dot"
+          />
+        </div>
+        <div
+          class="step-content"
+        >
+          <div
+            class="step-label"
+          >
+            Finalizing Dataset
+          </div>
+          <div
+            class="step-desc"
+          >
+            Formulating structured files and sorting statistics
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="active-activity-card"
+    >
+      <div
+        class="activity-label"
+      >
+        Active Status
+      </div>
+      <div
+        class="activity-message"
+      >
+        Navigating and searching Google Maps for "Bakery in Mumbai"...
+      </div>
+      <div
+        class="modern-progress-bar-bg"
+      >
+        <div
+          class="modern-progress-bar-fill "
+          style="width: 30%;"
+        />
+      </div>
+    </div>
+    <div
+      class="diagnostics-accordion"
+    >
+      <button
+        aria-expanded="false"
+        class="diagnostics-toggle-btn"
+      >
+        <span>
+          View Detailed System Output Logs
+        </span>
+        <svg
+          class="arrow-icon "
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            fill-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
