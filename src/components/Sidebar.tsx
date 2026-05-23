@@ -75,21 +75,38 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="form-group sidebar-slider-wrap">
           <div className="range-header">
             <span>Search Limit</span>
-            <span><strong>{limit}</strong> items</span>
+            <span><strong>{limit === 9999 ? 'Unlimited' : limit}</strong> items</span>
           </div>
           <div className="sidebar-slider-control">
             <Slider
-              value={[limit]}
+              value={[limit === 9999 ? 100 : limit]}
               onValueChange={(val) => {
-                if (Array.isArray(val)) {
-                  setLimit(val[0]);
-                } else if (typeof val === 'number') {
-                  setLimit(val);
-                }
+                const num = Array.isArray(val) ? val[0] : val;
+                setLimit(num);
               }}
               min={5}
               max={100}
               step={5}
+              disabled={isScraping || limit === 9999}
+            />
+          </div>
+        </div>
+
+        <div className="form-group sidebar-field-wrap">
+          <div className="switch-group">
+            <div className="switch-label">
+              <span className="switch-title">Unlimited Extraction</span>
+              <span className="switch-desc">Scrapes all listings without restrictions</span>
+            </div>
+            <Switch
+              checked={limit === 9999}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  setLimit(9999);
+                } else {
+                  setLimit(20);
+                }
+              }}
               disabled={isScraping}
             />
           </div>

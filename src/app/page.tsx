@@ -5,9 +5,7 @@ import { ScrapedItem, ScrapeProgress } from '@/types/scraper';
 import Sidebar from '@/components/Sidebar';
 import StatsCards from '@/components/StatsCards';
 import TerminalConsole from '@/components/TerminalConsole';
-import AnalyticsCharts from '@/components/AnalyticsCharts';
 import DataTable from '@/components/DataTable';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 interface TerminalLine {
   text: string;
@@ -29,7 +27,6 @@ export default function ScraperDashboard() {
   const [, setCurrentProgress] = useState<ScrapeProgress | null>(null);
 
   // UI State
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'table'>('dashboard');
   const [searchFilter, setSearchFilter] = useState('');
   const [sortConfig, setSortConfig] = useState<{ key: keyof ScrapedItem; direction: 'asc' | 'desc' } | null>(null);
 
@@ -71,7 +68,6 @@ export default function ScraperDashboard() {
     setTerminalLogs([]);
     setCurrentProgress(null);
     setIsScraping(true);
-    setActiveTab('dashboard');
 
     appendLog(`Initializing search for "${query}" in "${location || 'Anywhere'}"...`, 'initializing');
 
@@ -313,47 +309,19 @@ export default function ScraperDashboard() {
             withPhonePct={stats.withPhonePct}
           />
 
-          {/* shadcn Tabs Container */}
-          <Tabs value={activeTab} onValueChange={(val) => setActiveTab(val as 'dashboard' | 'table')} className="w-full">
-            <TabsList className="bg-transparent border-b border-glass rounded-none w-full flex justify-start gap-2 p-0 mb-4 h-auto">
-              <TabsTrigger 
-                value="dashboard" 
-                className="tab-btn px-6 py-2.5 h-auto text-sm border-b-2 data-active:border-purple-500 rounded-none bg-transparent hover:text-white transition-all cursor-pointer select-none"
-              >
-                Scraper Logs & Charts
-              </TabsTrigger>
-              <TabsTrigger 
-                value="table" 
-                className="tab-btn px-6 py-2.5 h-auto text-sm border-b-2 data-active:border-purple-500 rounded-none bg-transparent hover:text-white transition-all cursor-pointer select-none"
-              >
-                Extracted Data Grid ({scrapedItems.length})
-              </TabsTrigger>
-            </TabsList>
+          {/* Simple Progress Dashboard Card */}
+          <TerminalConsole logs={terminalLogs} isScraping={isScraping} />
 
-            <TabsContent value="dashboard" className="outline-none">
-              <div className="dashboard-tab-content">
-                <TerminalConsole logs={terminalLogs} isScraping={isScraping} />
-                <AnalyticsCharts
-                  topCategories={analytics.topCategories}
-                  withWebsitePct={stats.withWebsitePct}
-                  withPhonePct={stats.withPhonePct}
-                  totalItems={scrapedItems.length}
-                />
-              </div>
-            </TabsContent>
-
-            <TabsContent value="table" className="outline-none">
-              <DataTable
-                items={filteredAndSortedItems}
-                searchFilter={searchFilter}
-                setSearchFilter={setSearchFilter}
-                onRequestSort={requestSort}
-                onDownloadCSV={downloadCSV}
-                onDownloadJSON={downloadJSON}
-                totalScraped={scrapedItems.length}
-              />
-            </TabsContent>
-          </Tabs>
+          {/* Extracted Data Grid */}
+          <DataTable
+            items={filteredAndSortedItems}
+            searchFilter={searchFilter}
+            setSearchFilter={setSearchFilter}
+            onRequestSort={requestSort}
+            onDownloadCSV={downloadCSV}
+            onDownloadJSON={downloadJSON}
+            totalScraped={scrapedItems.length}
+          />
         </main>
       </div>
     </div>
